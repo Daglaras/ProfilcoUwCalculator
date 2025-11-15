@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    // Remove output: 'export' since we need API routes
+    output: 'export', // For static export
     images: {
       unoptimized: true
     }
