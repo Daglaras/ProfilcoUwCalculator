@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 :root {
+  /* New primary color: #f47d31 (Orange/Coral) */
+  --profilco-accent: #f47d31; 
   --profilco-navy: #1a2944;
   --profilco-blue: #2c5282;
   --profilco-light-blue: #4a90e2;
@@ -24,6 +26,7 @@ body {
   min-height: 100vh;
 }
 
+/* Base Header Style */
 .profilco-header {
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
@@ -31,14 +34,15 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 3px solid var(--profilco-blue);
+  /* Updated border color to use the new accent color */
+  border-bottom: 3px solid var(--profilco-accent); 
 }
 
-/* Remove gap by removing sticky and updating sidebar */
+/* Sidebar Styles - Fixed the gap issue by ensuring it starts at the absolute top (top: 0) */
 .profilco-sidebar {
   position: fixed;
   left: 0;
-  top: 0;  /* Change this to remove gap */
+  top: 0; /* Ensures the sidebar is at the very top of the viewport */
   height: 100vh;
   width: 280px;
   background: white;
@@ -49,13 +53,15 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* Update header positioning */
+/* Update header positioning for when the sidebar is present. 
+   It stays sticky and correctly offset by the sidebar width. */
 .profilco-header-with-sidebar {
   margin-left: 280px;
-  border-bottom: 3px solid var(--profilco-blue);
+  /* Updated border color to use the new accent color */
+  border-bottom: 3px solid var(--profilco-accent); 
   position: sticky;
   top: 0;
-  z-index: 99;  /* Below sidebar */
+  z-index: 99;
 }
 
 .profilco-logo {
@@ -67,7 +73,8 @@ body {
 }
 
 .profilco-logo span {
-  color: var(--profilco-blue);
+  /* Updated logo accent color */
+  color: var(--profilco-accent); 
 }
 
 .profilco-container {
@@ -112,8 +119,10 @@ body {
 
 .profilco-series-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(44,82,130,0.15);
-  border-color: var(--profilco-blue);
+  /* Updated shadow color to reflect the new accent */
+  box-shadow: 0 12px 40px rgba(244,125,49,0.15); 
+  /* Updated border color to reflect the new accent */
+  border-color: var(--profilco-accent); 
 }
 
 .profilco-series-image {
@@ -137,7 +146,8 @@ body {
 
 .profilco-series-subtitle {
   font-size: 1.1rem;
-  color: var(--profilco-blue);
+  /* Updated subtitle color to reflect the new accent */
+  color: var(--profilco-accent); 
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -161,12 +171,14 @@ body {
   box-shadow: 0 3px 15px rgba(0,0,0,0.08);
   transition: all 0.3s ease;
   cursor: pointer;
-  border-left: 4px solid var(--profilco-blue);
+  /* Updated left border color to reflect the new accent */
+  border-left: 4px solid var(--profilco-accent); 
 }
 
 .profilco-window-card:hover {
   transform: translateX(5px);
-  box-shadow: 0 6px 25px rgba(44,82,130,0.15);
+  /* Updated shadow color to reflect the new accent */
+  box-shadow: 0 6px 25px rgba(244,125,49,0.15); 
 }
 
 .profilco-window-title {
@@ -243,14 +255,17 @@ body {
 .profilco-input:focus,
 .profilco-select:focus {
   outline: none;
-  border-color: var(--profilco-blue);
-  box-shadow: 0 0 0 3px rgba(44,82,130,0.1);
+  /* Updated focus color to reflect the new accent */
+  border-color: var(--profilco-accent); 
+  /* Updated focus shadow color to reflect the new accent */
+  box-shadow: 0 0 0 3px rgba(244,125,49,0.2); 
 }
 
 .profilco-select {
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%232c5282' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  /* Updated SVG dropdown arrow color to reflect the new accent */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23f47d31' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 0.7rem center;
   background-size: 1.5em 1.5em;
@@ -273,24 +288,29 @@ body {
 }
 
 .profilco-button-primary {
-  background: linear-gradient(135deg, var(--profilco-blue) 0%, var(--profilco-light-blue) 100%);
+  /* Updated primary button gradient to use the new accent color */
+  background: linear-gradient(135deg, var(--profilco-accent) 0%, var(--profilco-accent) 100%);
   color: white;
-  box-shadow: 0 4px 15px rgba(44,82,130,0.3);
+  /* Updated box-shadow to reflect the new accent */
+  box-shadow: 0 4px 15px rgba(244,125,49,0.3); 
 }
 
 .profilco-button-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(44,82,130,0.4);
+  /* Updated box-shadow to reflect the new accent */
+  box-shadow: 0 6px 20px rgba(244,125,49,0.4); 
 }
 
 .profilco-button-secondary {
   background: white;
-  color: var(--profilco-blue);
-  border: 2px solid var(--profilco-blue);
+  /* Updated secondary button text and border color to reflect the new accent */
+  color: var(--profilco-accent); 
+  border: 2px solid var(--profilco-accent); 
 }
 
 .profilco-button-secondary:hover {
-  background: var(--profilco-blue);
+  /* Updated secondary button hover color to reflect the new accent */
+  background: var(--profilco-accent); 
   color: white;
 }
 
@@ -307,7 +327,8 @@ body {
 }
 
 .profilco-result-hero {
-  background: linear-gradient(135deg, var(--profilco-navy) 0%, var(--profilco-blue) 100%);
+  /* Updated result hero gradient to use the new accent color */
+  background: linear-gradient(135deg, var(--profilco-navy) 0%, var(--profilco-accent) 100%); 
   color: white;
   padding: 3rem;
   border-radius: 12px;
@@ -338,7 +359,8 @@ body {
   background: white;
   padding: 1.5rem;
   border-radius: 10px;
-  border-left: 4px solid var(--profilco-blue);
+  /* Updated left border color to reflect the new accent */
+  border-left: 4px solid var(--profilco-accent); 
   box-shadow: 0 2px 10px rgba(0,0,0,0.06);
   transition: all 0.3s ease;
 }
@@ -398,14 +420,16 @@ body {
   top: 1rem;
   left: 1rem;
   z-index: 1001;
-  background: var(--profilco-blue);
+  /* Updated mobile button background color to reflect the new accent */
+  background: var(--profilco-accent); 
   color: white;
   border: none;
   padding: 0.75rem 1rem;
   border-radius: 8px;
   font-size: 1.5rem;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(44,82,130,0.3);
+  /* Updated box-shadow to reflect the new accent */
+  box-shadow: 0 4px 15px rgba(244,125,49,0.3); 
 }
 
 .profilco-sidebar {
@@ -435,7 +459,8 @@ body {
 }
 
 .profilco-sidebar-logo span {
-  color: var(--profilco-blue);
+  /* Updated logo accent color */
+  color: var(--profilco-accent); 
 }
 
 .profilco-sidebar-subtitle {
@@ -472,9 +497,11 @@ body {
 }
 
 .profilco-sidebar-item.active {
-  background: linear-gradient(135deg, var(--profilco-blue) 0%, var(--profilco-light-blue) 100%);
+  /* Updated active gradient to use the new accent color */
+  background: linear-gradient(135deg, var(--profilco-accent) 0%, var(--profilco-accent) 100%); 
   color: white;
-  box-shadow: 0 4px 15px rgba(44,82,130,0.3);
+  /* Updated box-shadow to reflect the new accent */
+  box-shadow: 0 4px 15px rgba(244,125,49,0.3); 
 }
 
 .profilco-sidebar-item.active .profilco-sidebar-title,
@@ -502,8 +529,8 @@ body {
 
 .profilco-sidebar-title {
   font-weight: 600;
-  font-size: 0.95rem;
   color: var(--profilco-navy);
+  font-size: 0.95rem;
 }
 
 .profilco-sidebar-desc {
@@ -549,7 +576,8 @@ body {
   display: inline-block;
   padding: 0.5rem 1rem;
   background: var(--profilco-gray);
-  color: var(--profilco-blue);
+  /* Updated contact link color to reflect the new accent */
+  color: var(--profilco-accent); 
   text-decoration: none;
   border-radius: 6px;
   font-size: 0.85rem;
@@ -558,7 +586,8 @@ body {
 }
 
 .profilco-sidebar-contact a:hover {
-  background: var(--profilco-blue);
+  /* Updated contact link hover background color to reflect the new accent */
+  background: var(--profilco-accent); 
   color: white;
 }
 
@@ -572,9 +601,8 @@ body {
   min-height: 100vh;
 }
 
-.profilco-header-with-sidebar {
-  margin-left: 280px;
-}
+/* The header-with-sidebar class was also fixed in the first section of the file
+   to ensure it is sticky at top: 0 and uses the new margin-left: 280px. */
 
 /* Mobile Responsive */
 @media (max-width: 1024px) {
