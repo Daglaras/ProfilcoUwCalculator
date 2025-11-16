@@ -1,35 +1,50 @@
 import { NextResponse } from 'next/server';
 
+// Interface for type safety (assuming these are the fields being sent)
+interface CalculationPayload {
+  width: number;
+  height: number;
+  depth: number;
+  // NOTE: You need to add all required fields from your backend's CalculationRequest
+  // For now, I'll use the placeholder variables from your provided code.
+}
+
 export async function POST(request: Request) {
+  const pythonApiUrl = 'https://profilcouwcalculator-2.onrender.com';
+  
+  // NOTE: You need to extract the window, series, case_index, etc. 
+  // from the body, as required by your Python backend's CalculationRequest model.
+  let requestBody: any;
+  let response: Response; // Declare response here so it's scoped correctly
+  
   try {
-    const body = await request.json();
-    console.log('Request body:', body);
+    requestBody = await request.json();
+    console.log('Request body received:', requestBody);
     
-    // MAKE SURE THIS IS YOUR ACTUAL RENDER URL
-    const pythonApiUrl = 'https://profilcouwcalculator-2.onrender.com';
+    // --- CRITICAL FIXES APPLIED HERE ---
+    // 1. Using the correct base URL variable (pythonApiUrl).
+    // 2. Using the correct API path (/api/calculate) as defined in the FastAPI backend.
+    const fullApiUrl = `${pythonApiUrl}/api/calculate`; 
+    console.log('Calling Python API:', fullApiUrl);
     
-    console.log('Calling Python API:', pythonApiUrl);
-    
-    await fetch(`${API_URL}/calculate`, {
+    response = await fetch(fullApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        // your data here
-        width,
-        height,
-        depth
-      }),
+      // Ensure you are sending the complete structure (window, series, case_index, etc.)
+      // that your backend's CalculationRequest model expects.
+      body: JSON.stringify(requestBody), 
     });
 
-    
+    // We check the response after the fetch call completes
     console.log('Python API response status:', response.status);
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Python backend error:', errorText);
-      throw new Error(`Python backend error: ${response.status}`);
+      console.error('Python backend error details:', errorText);
+      // Re-throw a specific error that includes the 405 status
+      throw new Error(`Python backend error: ${response.status} - ${errorText.substring(0, 100)}...`);
     }
     
     const data = await response.json();
@@ -38,8 +53,10 @@ export async function POST(request: Request) {
     
   } catch (error: any) {
     console.error('API Error:', error);
+    // If the error occurred during the fetch attempt (e.g., DNS failure, connection issue), 
+    // we use a generic 500 status.
     return NextResponse.json(
-      { error: error.message || 'Calculation failed' },
+      { error: `Calculation failed: ${error.message}` },
       { status: 500 }
     );
   }
