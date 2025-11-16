@@ -10,11 +10,19 @@ export async function POST(request: Request) {
     
     console.log('Calling Python API:', pythonApiUrl);
     
-    const response = await fetch(pythonApiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
+    await fetch(`${API_URL}/calculate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // your data here
+        width,
+        height,
+        depth
+      }),
     });
+
     
     console.log('Python API response status:', response.status);
     
