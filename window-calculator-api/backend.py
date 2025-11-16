@@ -8,7 +8,11 @@ app = FastAPI()
 # Allow requests from Next.js
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "https://profilco-uw-calculator-hksmpt677-daglas-projects.vercel.app",  # Your Vercel URL
+        "https://*.vercel.app"  # Allow all Vercel domains
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
