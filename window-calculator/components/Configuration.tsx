@@ -17,6 +17,7 @@ export default function Configuration({ window, seriesType, onBack }: Configurat
   const [psiValue, setPsiValue] = useState(0.05);
   const [results, setResults] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const seriesOptions = seriesType === 'Sliding' ? slidingSeries : openingSeries;
   const compatibleCases = window.compatible_cases.map((i: number) => cases[i]);
@@ -26,6 +27,8 @@ export default function Configuration({ window, seriesType, onBack }: Configurat
     if (!selectedSeries || !selectedCase || !selectedProfile) return;
 
     setLoading(true);
+    setError(null);
+    
     const caseIndex = window.compatible_cases[compatibleCases.indexOf(selectedCase)];
     const profileIndex = window.compatible_profiles[compatibleProfiles.indexOf(selectedProfile)];
 
@@ -43,11 +46,22 @@ export default function Configuration({ window, seriesType, onBack }: Configurat
         }),
       });
 
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Calculation failed');
+      }
+
       const data = await response.json();
+      
+      if (!data || typeof data.Uw === 'undefined') {
+        throw new Error('Invalid response from server');
+      }
+      
       setResults(data);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Calculation error:', error);
-      alert('Σφάλμα υπολογισμού. Βεβαιωθείτε ότι το backend τρέχει στην πόρτα 8000.');
+      setError(error.message || 'Σφάλμα υπολογισμού. Βεβαιωθείτε ότι το backend τρέχει.');
+      setResults(null);
     } finally {
       setLoading(false);
     }
@@ -134,6 +148,19 @@ export default function Configuration({ window, seriesType, onBack }: Configurat
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="profilco-error-message" style={{
+          padding: '1rem',
+          marginBottom: '1rem',
+          backgroundColor: '#fee',
+          border: '1px solid #fcc',
+          borderRadius: '8px',
+          color: '#c33'
+        }}>
+          ⚠️ {error}
+        </div>
+      )}
 
       <button
         onClick={handleCalculate}
