@@ -30,7 +30,8 @@ body {
 .profilco-header {
   background: white;
   box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  padding: 1.5rem 0;
+  /* FIX: Increased padding from 1.5rem to 2rem to match the sidebar's top padding, ensuring content aligns vertically. */
+  padding: 2rem 0; 
   position: sticky;
   top: 0;
   z-index: 100;
