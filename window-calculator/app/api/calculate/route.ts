@@ -6,7 +6,7 @@ export async function POST(request: Request) {
     console.log('Request body:', body);
     
     // MAKE SURE THIS IS YOUR ACTUAL RENDER URL
-    const pythonApiUrl = 'https://render.com/docs/web-services#port-binding';
+    const pythonApiUrl = ' https://profilcouwcalculator-2.onrender.com';
     
     console.log('Calling Python API:', pythonApiUrl);
     
