@@ -10,7 +10,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "https://profilco-uw-calculator-hksmpt677-daglas-projects.vercel.app",  # Your Vercel URL
+        "https://https://profilco-uw-calculator-g40s6uy30-daglas-projects.vercel.app/",  # Your Vercel URL
         "https://*.vercel.app"  # Allow all Vercel domains
     ],
     allow_credentials=True,
