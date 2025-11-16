@@ -106,6 +106,96 @@ def calculate(req: CalculationRequest):
         'Uw': Uw,
         'has_hook': hook_width is not None
     }
+print("Starting backend.py...")
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+import importlib
+import sys
+
+print("Flask imports successful")
+
+app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
+
+print("Importing calculation classes...")
+
+# Import all calculation classes
+from calculations.mono_fixed import MonoFixedCalculation
+print("  - MonoFixedCalculation imported")
+from calculations.mono_opening import MonoOpeningCalculation
+print("  - MonoOpeningCalculation imported")
+from calculations.sliding_2 import Sliding2Calculation
+print("  - Sliding2Calculation imported")
+from calculations.sliding_3 import Sliding3Calculation
+print("  - Sliding3Calculation imported")
+from calculations.sliding_4 import Sliding4Calculation
+print("  - Sliding4Calculation imported")
+
+# Map window types to their calculation classes
+CALCULATION_CLASSES = {
+    'Μονόφυλλο Σταθερό': MonoFixedCalculation,
+    'Μονόφυλλο Ανοιγόμενο': MonoOpeningCalculation,
+    'Συρόμενο 2 Φύλλων': Sliding2Calculation,
+    'Συρόμενο 3 Φύλλων': Sliding3Calculation,
+    'Συρόμενο 4 Φύλλων': Sliding4Calculation,
+}
+
+@app.route('/api/calculate', methods=['POST'])
+def calculate():
+    try:
+        data = request.json
+        
+        # Extract parameters
+        window = data.get('window')
+        series = data.get('series')
+        case_index = data.get('case_index')
+        profile_index = data.get('profile_index')
+        ug_value = data.get('ug_value')
+        psi_value = data.get('psi_value')
+        
+        # Validate required fields
+        if not all([window, series, case_index is not None, profile_index is not None]):
+            return jsonify({'error': 'Missing required fields'}), 400
+        
+        # Get the calculation class for this window type
+        window_type = window.get('name')
+        calculation_class = CALCULATION_CLASSES.get(window_type)
+        
+        if not calculation_class:
+            return jsonify({'error': f'Unknown window type: {window_type}'}), 400
+        
+        # Create calculator instance
+        calculator = calculation_class(
+            length=window.get('length'),
+            height=window.get('height'),
+            case_index=case_index,
+            profile_index=profile_index,
+            series_uf=series.get('Uf'),
+            ug_value=ug_value,
+            psi_value=psi_value
+        )
+        
+        # Perform calculation
+        results = calculator.calculate()
+        
+        # Return results
+        return jsonify(results)
+        
+    except Exception as e:
+        print(f"Calculation error: {str(e)}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/health', methods=['GET'])
+def health():
+    return jsonify({'status': 'ok', 'message': 'Backend is running'})
+
+if __name__ == '__main__':
+    print("Starting Flask server on http://localhost:5000")
+    print("Available window types:", list(CALCULATION_CLASSES.keys()))
+    app.run(debug=True, port=5000)
 
 @app.get("/")
 def root():
