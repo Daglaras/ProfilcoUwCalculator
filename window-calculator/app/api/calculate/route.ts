@@ -4,8 +4,8 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
     
-    // Call Python backend
-    const pythonApiUrl = 'http://localhost:8000/calculate';
+    // UPDATE THIS URL with your Render backend URL
+    const pythonApiUrl = 'https://profilcouwcalculator-1.onrender.com';
     
     const response = await fetch(pythonApiUrl, {
       method: 'POST',
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('API Error:', error);
     return NextResponse.json(
-      { error: 'Calculation failed. Make sure Python backend is running on port 8000.' },
+      { error: 'Calculation failed' },
       { status: 500 }
     );
   }
